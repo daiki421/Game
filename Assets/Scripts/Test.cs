@@ -18,12 +18,11 @@ public class Test : MonoBehaviour {
   {
     //二点間の距離を代入(スピード調整に使う)
     distance_two = Vector3.Distance(startMarker.position, endMarker.position);
-    move(startMarker, endMarker, distance_two);
+    iTween.MoveTo(gameObject, iTween.Hash("x", endMarker.position.x));
   }
 
   void Update()
   {
-
     // 現在の位置
     float present_Location = (Time.time * speed) / distance_two;
 

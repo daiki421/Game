@@ -32,7 +32,7 @@ public class BlockController : MonoBehaviour {
       for (int j = 0; j < BLOCK_ROW; j++)
       {
         isExistence[i, j] = true;
-        //print("("+i+", "+j+")="+isExistence[i, j]);
+        print("("+i+", "+j+")="+isExistence[i, j]);
       }
     }
   }
@@ -46,6 +46,7 @@ public class BlockController : MonoBehaviour {
     } else if (Input.GetMouseButtonUp(0)) {
       //クリックを終えた時
       OnDragEnd();
+      dropBlock();
     } else if (firstBlock != null) {
       OnDragging();
     }
@@ -114,7 +115,7 @@ public class BlockController : MonoBehaviour {
     }
     firstBlock = null;
     lastBlock = null;
-    //dropBlock();
+
   }
 
   void PushToList(GameObject obj)
@@ -129,39 +130,35 @@ public class BlockController : MonoBehaviour {
     // 消す時に削除フラグを立てたisExistenceを使う
     // 列ごとに消えたブロックの個数をカウント
     // 同時に落下させるブロックはそのブロックよりも下にいくつ消えたブロックがあるかを取得し落下させる
-    for (int i = 0; i < BLOCK_ROW; i++)
-    {
-      deleteBlockCount[i] = 0;
-    }
+
     for (int i = 0; i < BLOCK_ROW; i++)
     {
       for (int j = BLOCK_LINE - 1; j > 0; j--)
       {
-        if (isExistence[i, j])
+        print("(" + i + ", " + j + ")=" + isExistence[j, i]);
+        //print("(" + i + ", " + j + ")");
+        if (isExistence[j, i])
         {
           deleteBlockCount[i]++;
+          print("-------------------------------------");
+          print("isExistence=" + isExistence[i, j]);
+          print("(x, y)=" + "(" + i + ", " + j + ")");
+          print("deleteBlockCount=" + deleteBlockCount[i]);
+          print("-------------------------------------");
         } else if (!isExistence[i, j] && deleteBlockCount[i] != 0) {
-          // 落下させる
-          // 二点間の距離を取得
-          // 落下させるオブジェクトとブロックマーカーの距離を測る
-
+          print("-------------------------------------");
+          print("isExistence=" + isExistence[i, j]);
+          print("(x, y)=" + "(" + i + ", " + j + ")");
+          print("deleteBlockCount=" + deleteBlockCount[i]);
+          print("-------------------------------------");
           // 落下させるオブジェクトを求める
-          Transform dropBlock = blocks[i, j].transform;
-          // 落下予定地のマーカーを取得
+          GameObject dropBlock = blocks[i, j];
           // 落下予定地のY座標
           int matrixY = j + deleteBlockCount[i];
-          Transform blockMarker = blockMarkers[i, matrixY].transform;
-          // 二点間の距離を求める
-          float distance = Vector3.Distance(dropBlock.position, blockMarker.position);
-          // Leapで距離算出
-          // updateに設定できないのでwhileで回す
-          float present_Location = (Time.time * 1.0f) / distance;
-          while (present_Location < 1)
-          {
-            dropBlock.transform.position = Vector3.Lerp(dropBlock.position, blockMarker.position, present_Location);
-            distance = Vector3.Distance(dropBlock.position, blockMarker.position);
-            present_Location = (Time.time * 1.0f) / distance;
-          }
+          // 落下予定地のマーカーを取得
+          GameObject blockMarker = blockMarkers[i, matrixY];
+          // 落下させる
+          iTween.MoveTo(dropBlock, iTween.Hash("y", blockMarker.transform.position.y));
         }
       }
     }
