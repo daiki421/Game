@@ -18,6 +18,7 @@ public class Test : MonoBehaviour {
   {
     //二点間の距離を代入(スピード調整に使う)
     distance_two = Vector3.Distance(startMarker.position, endMarker.position);
+    move(startMarker, endMarker, distance_two);
   }
 
   void Update()
@@ -27,6 +28,17 @@ public class Test : MonoBehaviour {
     float present_Location = (Time.time * speed) / distance_two;
 
     // オブジェクトの移動
-    transform.position = Vector3.Lerp(startMarker.position, endMarker.position, present_Location);
+    //transform.position = Vector3.Lerp(startMarker.position, endMarker.position, 0.5f);
+  }
+
+  void move(Transform start, Transform end, float distance)
+  {
+    float present_Location = 0;
+    while (present_Location < 1)
+    {
+      transform.position = Vector3.Lerp(startMarker.position, endMarker.position, present_Location);
+      //distance = Vector3.Distance(dropBlock.position, blockMarker.position);
+      present_Location = (Time.time * 1.0f) / distance;
+    }
   }
 }

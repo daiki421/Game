@@ -114,7 +114,7 @@ public class BlockController : MonoBehaviour {
     }
     firstBlock = null;
     lastBlock = null;
-    dropBlock();
+    //dropBlock();
   }
 
   void PushToList(GameObject obj)
