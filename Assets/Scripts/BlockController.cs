@@ -136,7 +136,6 @@ public class BlockController : MonoBehaviour {
       for (int j = BLOCK_LINE - 1; j > 0; j--)
       {
         print("(" + i + ", " + j + ")=" + isExistence[j, i]);
-        //print("(" + i + ", " + j + ")");
         if (isExistence[j, i])
         {
           deleteBlockCount[i]++;
