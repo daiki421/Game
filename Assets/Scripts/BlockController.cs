@@ -22,6 +22,7 @@ public class BlockController : MonoBehaviour {
   void Start () {
     blocks = new GameObject[BLOCK_LINE, BLOCK_ROW];
     blockMarkers = new GameObject[BLOCK_LINE, BLOCK_ROW];
+    deleteBlockCount = new int[BLOCK_ROW];
     createBlock(BLOCK_LINE, BLOCK_ROW);
     createSideWall(23);
     createFloorStone(BLOCK_LINE);
@@ -32,8 +33,12 @@ public class BlockController : MonoBehaviour {
       for (int j = 0; j < BLOCK_ROW; j++)
       {
         isExistence[i, j] = true;
-        print("("+i+", "+j+")="+isExistence[i, j]);
+        //print("("+i+", "+j+")="+isExistence[i, j]);
       }
+    }
+    for (int j = 0; j < BLOCK_ROW; j++)
+    {
+      deleteBlockCount[j] = 0;
     }
   }
 
@@ -135,28 +140,29 @@ public class BlockController : MonoBehaviour {
     {
       for (int j = BLOCK_LINE - 1; j > 0; j--)
       {
-        print("(" + i + ", " + j + ")=" + isExistence[j, i]);
-        if (isExistence[j, i])
+        //print("(" + i + ", " + j + ")=" + isExistence[j, i]);
+        if (!isExistence[j, i])
         {
           deleteBlockCount[i]++;
+          //print("-------------------------------------");
+          //print("isExistence=" + isExistence[j, i]);
+          //print("(x, y)=" + "(" + i + ", " + j + ")");
+          //print("deleteBlockCount=" + deleteBlockCount[i]);
+          //print("-------------------------------------");
+        } else if (isExistence[j, i] && deleteBlockCount[i] != 0) {
           print("-------------------------------------");
-          print("isExistence=" + isExistence[i, j]);
-          print("(x, y)=" + "(" + i + ", " + j + ")");
-          print("deleteBlockCount=" + deleteBlockCount[i]);
-          print("-------------------------------------");
-        } else if (!isExistence[i, j] && deleteBlockCount[i] != 0) {
-          print("-------------------------------------");
-          print("isExistence=" + isExistence[i, j]);
+          print("isExistence=" + isExistence[j, i]);
           print("(x, y)=" + "(" + i + ", " + j + ")");
           print("deleteBlockCount=" + deleteBlockCount[i]);
           print("-------------------------------------");
           // 落下させるオブジェクトを求める
-          GameObject dropBlock = blocks[i, j];
+          GameObject dropBlock = blocks[j, i];
           // 落下予定地のY座標
-          int matrixY = j + deleteBlockCount[i];
+          int matrixY = j - deleteBlockCount[i];
           // 落下予定地のマーカーを取得
-          GameObject blockMarker = blockMarkers[i, matrixY];
+          GameObject blockMarker = blockMarkers[matrixY, i];
           // 落下させる
+
           iTween.MoveTo(dropBlock, iTween.Hash("y", blockMarker.transform.position.y));
         }
       }
