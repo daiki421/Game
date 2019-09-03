@@ -191,13 +191,13 @@ public class BlockController : MonoBehaviour {
 
   void createBlock(int line, int row) {
     for (int i = 0; i < row; i++) {
-      for (int j = 0; j < line; j++) {
+      for (int j = 2; j < line; j++) {
         int objectNum = Random.Range(1, 5);
         // プレファブ取得
         GameObject blockPrefab = GameObject.Find("Stone"+objectNum);
         // オブジェクトのポジション設定
-        float posX = -2.0f + 0.5f * i; // i = (posX + 2.0f) / 0.5f
-        float posY = -4.5f + 0.5f * j; // j = (posY + 4.5f) / 0.5f
+        float posX = -2.0f + 0.5f * i;
+        float posY = 3.0f - 0.5f * j;
         Vector2 blockPosition = new Vector2(posX, posY);
         GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
         blocks[j, i] = block; 
@@ -216,7 +216,7 @@ public class BlockController : MonoBehaviour {
         GameObject blockPrefab = GameObject.Find("BlockMarker");
         // オブジェクトのポジション設定
         float posX = -2.0f + 0.5f * i;
-        float posY = -4.5f + 0.5f * j;
+        float posY = 3.5f - 0.5f * j;
         Vector2 blockPosition = new Vector2(posX, posY);
         GameObject blockMarker = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
         blockMarkers[j, i] = blockMarker;
