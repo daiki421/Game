@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlockController : MonoBehaviour {
   public GameObject[] blockPrefab;
-  private int BLOCK_LINE = 15;
+  private int BLOCK_LINE = 12;
   private int BLOCK_ROW = 9;
   private GameObject firstBlock; //最初にドラッグしたボール
   private GameObject lastBlock; //最後にドラッグしたボール
@@ -191,7 +191,7 @@ public class BlockController : MonoBehaviour {
 
   void createBlock(int line, int row) {
     for (int i = 0; i < row; i++) {
-      for (int j = 2; j < line; j++) {
+      for (int j = 2; j < line+2; j++) {
         int objectNum = Random.Range(1, 5);
         // プレファブ取得
         GameObject blockPrefab = GameObject.Find("Stone"+objectNum);
@@ -200,7 +200,8 @@ public class BlockController : MonoBehaviour {
         float posY = 3.0f - 0.5f * j;
         Vector2 blockPosition = new Vector2(posX, posY);
         GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
-        blocks[j, i] = block; 
+        print("(x, y)=" + "(" + i + ", " + j + ")");
+        //blocks[i, j] = block; 
       }
     }
   }
@@ -219,7 +220,7 @@ public class BlockController : MonoBehaviour {
         float posY = 3.5f - 0.5f * j;
         Vector2 blockPosition = new Vector2(posX, posY);
         GameObject blockMarker = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
-        blockMarkers[j, i] = blockMarker;
+        //blockMarkers[j, i] = blockMarker;
       }
     }
   }
@@ -228,10 +229,13 @@ public class BlockController : MonoBehaviour {
   {
     GameObject blockPrefab = GameObject.Find("StoneWalls");
     // オブジェクトのポジション設定
-    float posX = 0;
-    float posY = 0 + (tall - 5) * -0.5f;
-    Vector2 blockPosition = new Vector2(posX, posY);
-    GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
+    for (int i = 0; i < 10; i++)
+    {
+      float posX = 0;
+      float posY = 3.0f - 0.5f * (BLOCK_LINE + 2 + i);
+      Vector2 blockPosition = new Vector2(posX, posY);
+      GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
+    }
   }
 
   void createSideWall(int tall) {
