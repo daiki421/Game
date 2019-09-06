@@ -28,9 +28,9 @@ public class BlockController : MonoBehaviour {
     createFloorStone(BLOCK_LINE);
     createBlockMarker(BLOCK_ROW, BLOCK_LINE);
     isExistence = new bool[BLOCK_ROW, BLOCK_LINE];
-    for(int i=0;i< BLOCK_LINE; i++)
+    for(int i=0;i< BLOCK_ROW; i++)
     {
-      for (int j = 0; j < BLOCK_ROW; j++)
+      for (int j = 2; j < BLOCK_LINE; j++)
       {
         isExistence[i, j] = true;
         //print("("+i+", "+j+")="+isExistence[i, j]);
@@ -77,8 +77,8 @@ public class BlockController : MonoBehaviour {
         //ドラッグ中のオブジェクトの座標を取得
         int matrixX = getMatrix_X(hitObj.transform.position.x);
         int matrixY = getMatrix_Y(hitObj.transform.position.y);
-        print("(x,y)=" + "(" + matrixY + ", " + matrixX + ")");
-        isExistence[matrixY, matrixX] = false;
+        //print("(x,y)=" + "(" + matrixY + ", " + matrixX + ")");
+        isExistence[matrixX, matrixY] = false;
         //削除対象のオブジェクトを格納
         PushToList(hitObj);
       }
@@ -101,8 +101,8 @@ public class BlockController : MonoBehaviour {
           //ドラッグ中のオブジェクトの座標を取得
           int matrixX = getMatrix_X(hitObj.transform.position.x);
           int matrixY = getMatrix_Y(hitObj.transform.position.y);
-          print("(x,y)="+"("+matrixY+", "+matrixX+")");
-          isExistence[matrixY, matrixX] = false;
+          //print("(x,y)="+"("+matrixY+", "+matrixX+")");
+          isExistence[matrixX, matrixY] = false;
           PushToList(hitObj);
         }
       }
@@ -136,12 +136,23 @@ public class BlockController : MonoBehaviour {
     // 列ごとに消えたブロックの個数をカウント
     // 同時に落下させるブロックはそのブロックよりも下にいくつ消えたブロックがあるかを取得し落下させる
 
+    //for (int i = 0; i < BLOCK_ROW; i++)
+    //{
+    //  for (int j = 2; j < BLOCK_LINE; j++)
+    //  {
+    //    print("("+i+", "+j+")="+isExistence[i, j]);
+    //  }
+    //}
+    for (int j = 0; j < BLOCK_ROW; j++)
+    {
+      deleteBlockCount[j] = 0;
+    }
     for (int i = 0; i < BLOCK_ROW; i++)
     {
-      for (int j = BLOCK_LINE - 1; j > 0; j--)
+      for (int j = BLOCK_LINE - 1; j > 1; j--)
       {
         //print("(" + i + ", " + j + ")=" + isExistence[j, i]);
-        if (!isExistence[j, i])
+        if (!isExistence[i, j])
         {
           deleteBlockCount[i]++;
           //print("-------------------------------------");
@@ -149,21 +160,27 @@ public class BlockController : MonoBehaviour {
           //print("(x, y)=" + "(" + i + ", " + j + ")");
           //print("deleteBlockCount=" + deleteBlockCount[i]);
           //print("-------------------------------------");
-        } else if (isExistence[j, i] && deleteBlockCount[i] != 0) {
+        } else if (isExistence[i, j] && deleteBlockCount[i] != 0) {
           print("-------------------------------------");
-          print("isExistence=" + isExistence[j, i]);
           print("(x, y)=" + "(" + i + ", " + j + ")");
+          print("isExistence=" + isExistence[i, j]);
           print("deleteBlockCount=" + deleteBlockCount[i]);
           print("-------------------------------------");
           // 落下させるオブジェクトを求める
-          GameObject dropBlock = blocks[j, i];
+          GameObject block = blocks[i, j];
+          print("block=" + block);
           // 落下予定地のY座標
-          int matrixY = j - deleteBlockCount[i];
+          int matrixY = j + deleteBlockCount[i];
+          print("blockMarker=" + "(" + i + ", " + matrixY + ")");
           // 落下予定地のマーカーを取得
-          GameObject blockMarker = blockMarkers[matrixY, i];
+          GameObject blockMarker = blockMarkers[i, matrixY];
           // 落下させる
+          iTween.MoveTo(block, iTween.Hash("y", blockMarker.transform.position.y));
+          // isExistenceの更新
+          isExistence[i, matrixY] = true;
+          // ブロックを落下地点の座標に入れ直す
+          blocks[i, matrixY] = block;
 
-          iTween.MoveTo(dropBlock, iTween.Hash("y", blockMarker.transform.position.y));
         }
       }
     }
@@ -177,8 +194,8 @@ public class BlockController : MonoBehaviour {
 
   int getMatrix_Y(float posY)
   {
-    float matrix = (posY + 4.5f) / 0.5f;
-    return (int)matrix;
+    float matriy = (3.0f - posY) / 0.5f;
+    return (int)matriy;
   }
 
   void ChangeColor(GameObject obj, float transparency)
@@ -196,14 +213,13 @@ public class BlockController : MonoBehaviour {
         // プレファブ取得
         GameObject blockPrefab = GameObject.Find("Stone"+objectNum);
         // オブジェクトのポジション設定
-        float posX = -2.0f + 0.5f * i;
-        float posY = 3.0f - 0.5f * j;
+        float posX = -2.0f + 0.5f * i; // (posX + 2.0f) / 0.5f
+        float posY = 3.0f - 0.5f * j; // (3.0f - posY) / 0.5f
         Vector2 blockPosition = new Vector2(posX, posY);
         GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
-        print("(x, y)=" + "(" + i + ", " + j + ")");
-
+        //print("(x, y)=" + "(" + i + ", " + j + ")");
         blocks[i, j] = block;
-        print(blocks[i, j]);
+        //print(blocks[i, j]);
       }
     }
   }
@@ -222,7 +238,7 @@ public class BlockController : MonoBehaviour {
         float posY = 3.0f - 0.5f * j;
         Vector2 blockPosition = new Vector2(posX, posY);
         GameObject blockMarker = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
-        //blockMarkers[j, i] = blockMarker;
+        blockMarkers[i, j] = blockMarker;
       }
     }
   }
