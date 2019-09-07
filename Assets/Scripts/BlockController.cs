@@ -177,11 +177,21 @@ public class BlockController : MonoBehaviour {
           // 落下させる
           iTween.MoveTo(block, iTween.Hash("y", blockMarker.transform.position.y));
           // isExistenceの更新
+          isExistence[i, j] = false;
           isExistence[i, matrixY] = true;
+
           // ブロックを落下地点の座標に入れ直す
           blocks[i, matrixY] = block;
 
         }
+      }
+    }
+    for (int i = 0; i < BLOCK_ROW; i++)
+    {
+      for (int j = 2; j < BLOCK_LINE; j++)
+      {
+        print("(" + i + ", " + j + ")=" + isExistence[i, j]);
+        print("(" + i + ", " + j + ")=" + blocks[i, j]);
       }
     }
   }
