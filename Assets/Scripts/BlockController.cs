@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlockController : MonoBehaviour {
   public GameObject[] blockPrefab;
-  private int BLOCK_LINE = 12;
+  private int BLOCK_LINE = 30;
   private int BLOCK_ROW = 9;
   private GameObject firstBlock; //最初にドラッグしたボール
   private GameObject lastBlock; //最後にドラッグしたボール
@@ -93,6 +93,7 @@ public class BlockController : MonoBehaviour {
       GameObject hitObj = hit.collider.gameObject;
       //同じ名前のブロックをクリック＆lastBallとは別オブジェクトである時
       if (hitObj.name == currentName && lastBlock != hitObj) {
+        PlayerPrefs.SetString("PreBlock", lastBlock.ToString());
         //２つのオブジェクトの距離を取得
         float distance = Vector2.Distance(hitObj.transform.position, lastBlock.transform.position);
         if (distance < 1.0f) {
@@ -105,6 +106,11 @@ public class BlockController : MonoBehaviour {
           isExistence[matrixX, matrixY] = false;
           PushToList(hitObj);
         }
+      } else {
+        // 現在ドラッグ中のブロックの１つ前のブロックを保存しておく
+        // ドラッグ中のブロックが保存したブロックである場合は削除リストから最新のブロックを削除
+        // 1つ前のブロックを削除したブロックの1つ前のブロックに更新
+        // 色の透明度を元に戻す
       }
     }
   }
@@ -186,14 +192,20 @@ public class BlockController : MonoBehaviour {
         }
       }
     }
-    for (int i = 0; i < BLOCK_ROW; i++)
-    {
-      for (int j = 2; j < BLOCK_LINE; j++)
-      {
-        print("(" + i + ", " + j + ")=" + isExistence[i, j]);
-        print("(" + i + ", " + j + ")=" + blocks[i, j]);
-      }
-    }
+    //for (int i = 0; i < BLOCK_ROW; i++)
+    //{
+    //  for (int j = 2; j < BLOCK_LINE; j++)
+    //  {
+    //    print("(" + i + ", " + j + ")=" + isExistence[i, j]);
+    //    print("(" + i + ", " + j + ")=" + blocks[i, j]);
+    //  }
+    //}
+  }
+
+  // 連結用の線を引く
+  void createLine()
+  {
+
   }
 
   int getMatrix_X(float posX)
