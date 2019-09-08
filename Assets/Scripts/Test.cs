@@ -13,7 +13,7 @@ public class Test : MonoBehaviour {
 
   //二点間の距離を入れる
   private float distance_two;
-
+  private string[][] stringValues;
   void Start()
   {
     //二点間の距離を代入(スピード調整に使う)
@@ -25,7 +25,6 @@ public class Test : MonoBehaviour {
   {
     // 現在の位置
     float present_Location = (Time.time * speed) / distance_two;
-
     // オブジェクトの移動
     //transform.position = Vector3.Lerp(startMarker.position, endMarker.position, 0.5f);
   }

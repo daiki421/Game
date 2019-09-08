@@ -9,8 +9,10 @@ public class BlockController : MonoBehaviour {
   private GameObject firstBlock; //最初にドラッグしたボール
   private GameObject lastBlock; //最後にドラッグしたボール
   private string currentName; //名前判定用のstring変数
-  //削除するボールのリスト
+  // 削除するブロックのリスト
   List<GameObject> removableBlockList = new List<GameObject>();
+  // 削除するブロックの配列
+
   // 削除するブロックをブロックの座標で管理する配列
   bool[,] isExistence;
   // 現在のオブジェクトの有無を管理する配列
@@ -93,7 +95,6 @@ public class BlockController : MonoBehaviour {
       GameObject hitObj = hit.collider.gameObject;
       //同じ名前のブロックをクリック＆lastBallとは別オブジェクトである時
       if (hitObj.name == currentName && lastBlock != hitObj) {
-        PlayerPrefs.SetString("PreBlock", lastBlock.ToString());
         //２つのオブジェクトの距離を取得
         float distance = Vector2.Distance(hitObj.transform.position, lastBlock.transform.position);
         if (distance < 1.0f) {
@@ -105,12 +106,19 @@ public class BlockController : MonoBehaviour {
           //print("(x,y)="+"("+matrixY+", "+matrixX+")");
           isExistence[matrixX, matrixY] = false;
           PushToList(hitObj);
+          PlayerPrefs.SetString("PreBlock", lastBlock.ToString());
         }
       } else {
-        // 現在ドラッグ中のブロックの１つ前のブロックを保存しておく
-        // ドラッグ中のブロックが保存したブロックである場合は削除リストから最新のブロックを削除
-        // 1つ前のブロックを削除したブロックの1つ前のブロックに更新
-        // 色の透明度を元に戻す
+        // 現在ドラッグ中のブロックの１つ前のブロックの座標を保存しておく
+        // ドラッグ中のブロック座標が保存したブロックの座標である場合は削除リストから最新のブロックを削除
+        //if (PlayerPrefs.GetString("PreBlock") == hitObj.name)
+        //{
+        //  removableBlockList.RemoveAt(removableBlockList.Count - 1);
+        //  // 1つ前のブロックを削除したブロックの1つ前のブロックに更新
+        //  PlayerPrefs.SetString("PreBlock", removableBlockList[removableBlockList.Count - 1].ToString());
+        //  // 色の透明度を元に戻す
+        //  ChangeColor(hitObj, 1.0f);
+        //}
       }
     }
   }
