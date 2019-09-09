@@ -12,7 +12,8 @@ public class BlockController : MonoBehaviour {
   // 削除するブロックのリスト
   List<GameObject> removableBlockList = new List<GameObject>();
   // 削除するブロックの配列
-
+  List<int> removableBlockX = new List<int>();
+  List<int> removableBlockY = new List<int>();
   // 削除するブロックをブロックの座標で管理する配列
   bool[,] isExistence;
   // 現在のオブジェクトの有無を管理する配列
@@ -81,6 +82,8 @@ public class BlockController : MonoBehaviour {
         int matrixY = getMatrix_Y(hitObj.transform.position.y);
         //print("(x,y)=" + "(" + matrixY + ", " + matrixX + ")");
         isExistence[matrixX, matrixY] = false;
+        removableBlockX.Add(matrixX);
+        removableBlockY.Add(matrixY);
         //削除対象のオブジェクトを格納
         PushToList(hitObj);
       }
@@ -98,27 +101,28 @@ public class BlockController : MonoBehaviour {
         //２つのオブジェクトの距離を取得
         float distance = Vector2.Distance(hitObj.transform.position, lastBlock.transform.position);
         if (distance < 1.0f) {
-          //削除対象のオブジェクトを格納
-          lastBlock = hitObj;
-          //ドラッグ中のオブジェクトの座標を取得
-          int matrixX = getMatrix_X(hitObj.transform.position.x);
-          int matrixY = getMatrix_Y(hitObj.transform.position.y);
-          //print("(x,y)="+"("+matrixY+", "+matrixX+")");
-          isExistence[matrixX, matrixY] = false;
-          PushToList(hitObj);
-          PlayerPrefs.SetString("PreBlock", lastBlock.ToString());
+          // 座標が保存してある配列にドラッグ中のブロックの座標が存在する場合は最新の配列の中身を削除
+          // ブロックの数だけループ回す
+          for (int i = 0; i < BLOCK_ROW * BLOCK_LINE; i++)
+          {
+            if (removableBlockX[i] == getMatrix_X(hitObj.transform.position.x) && removableBlockY[i] == getMatrix_Y(hitObj.transform.position.y)) {
+              // 配列の最新を削除
+
+            } else {
+              // ドラッグ中のブロックの座標がある場合は配列の最も新しい要素を削除する
+              //削除対象のオブジェクトを格納
+              lastBlock = hitObj;
+              //ドラッグ中のオブジェクトの座標を取得
+              int matrixX = getMatrix_X(hitObj.transform.position.x);
+              int matrixY = getMatrix_Y(hitObj.transform.position.y);
+              //print("(x,y)="+"("+matrixY+", "+matrixX+")");
+              isExistence[matrixX, matrixY] = false;
+              removableBlockX.Add(matrixX);
+              removableBlockY.Add(matrixY);
+              PushToList(hitObj);
+            }
+          }
         }
-      } else {
-        // 現在ドラッグ中のブロックの１つ前のブロックの座標を保存しておく
-        // ドラッグ中のブロック座標が保存したブロックの座標である場合は削除リストから最新のブロックを削除
-        //if (PlayerPrefs.GetString("PreBlock") == hitObj.name)
-        //{
-        //  removableBlockList.RemoveAt(removableBlockList.Count - 1);
-        //  // 1つ前のブロックを削除したブロックの1つ前のブロックに更新
-        //  PlayerPrefs.SetString("PreBlock", removableBlockList[removableBlockList.Count - 1].ToString());
-        //  // 色の透明度を元に戻す
-        //  ChangeColor(hitObj, 1.0f);
-        //}
       }
     }
   }
@@ -134,7 +138,6 @@ public class BlockController : MonoBehaviour {
     }
     firstBlock = null;
     lastBlock = null;
-
   }
 
   void PushToList(GameObject obj)
@@ -193,10 +196,8 @@ public class BlockController : MonoBehaviour {
           // isExistenceの更新
           isExistence[i, j] = false;
           isExistence[i, matrixY] = true;
-
           // ブロックを落下地点の座標に入れ直す
           blocks[i, matrixY] = block;
-
         }
       }
     }
