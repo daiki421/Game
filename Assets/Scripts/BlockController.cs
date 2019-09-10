@@ -107,7 +107,8 @@ public class BlockController : MonoBehaviour {
           {
             if (removableBlockX[i] == getMatrix_X(hitObj.transform.position.x) && removableBlockY[i] == getMatrix_Y(hitObj.transform.position.y)) {
               // 配列の最新を削除
-
+              removableBlockX.RemoveAt(removableBlockX.Count - 1);
+              removableBlockY.RemoveAt(removableBlockY.Count - 1);
             } else {
               // ドラッグ中のブロックの座標がある場合は配列の最も新しい要素を削除する
               //削除対象のオブジェクトを格納
