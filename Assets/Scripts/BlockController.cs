@@ -103,20 +103,25 @@ public class BlockController : MonoBehaviour {
         if (distance < 1.0f) {
           // 座標が保存してある配列にドラッグ中のブロックの座標が存在する場合は最新の配列の中身を削除
           // ブロックの数だけループ回す
-          for (int i = 0; i < BLOCK_ROW * BLOCK_LINE; i++)
-          {
-            if (removableBlockX[i] == getMatrix_X(hitObj.transform.position.x) && removableBlockY[i] == getMatrix_Y(hitObj.transform.position.y)) {
+          // 初めてドラッグしたブロックはelseに入るが、次のループ処理が走るのでドラッグしているブロックが先端のブロックである場合は
+          for (int i = 0; i < BLOCK_ROW * BLOCK_LINE; i++) {
+            if (removableBlockX[i] == getMatrix_X(hitObj.transform.position.x) && removableBlockY[i] == getMatrix_Y(hitObj.transform.position.y) && lastBlock != hitObj) {
               // 配列の最新を削除
+              print("---------１つ戻る---------");
+              print("(removableBlockX, removableBlockY)="+"("+removableBlockX[i]+", "+removableBlockY[i]+")");
+              print("removableBlock=" + removableBlockList[removableBlockList.Count - 1]);
               removableBlockX.RemoveAt(removableBlockX.Count - 1);
               removableBlockY.RemoveAt(removableBlockY.Count - 1);
+              ChangeColor(removableBlockList[removableBlockList.Count - 1], 1.0f);
             } else {
-              // ドラッグ中のブロックの座標がある場合は配列の最も新しい要素を削除する
               //削除対象のオブジェクトを格納
               lastBlock = hitObj;
               //ドラッグ中のオブジェクトの座標を取得
               int matrixX = getMatrix_X(hitObj.transform.position.x);
               int matrixY = getMatrix_Y(hitObj.transform.position.y);
-              //print("(x,y)="+"("+matrixY+", "+matrixX+")");
+              print("--------リストに追加-------");
+              print("(x,y)="+"("+matrixX+", "+matrixY+")");
+              print("lastBlock=" + lastBlock);
               isExistence[matrixX, matrixY] = false;
               removableBlockX.Add(matrixX);
               removableBlockY.Add(matrixY);
@@ -179,11 +184,11 @@ public class BlockController : MonoBehaviour {
           //print("deleteBlockCount=" + deleteBlockCount[i]);
           //print("-------------------------------------");
         } else if (isExistence[i, j] && deleteBlockCount[i] != 0) {
-          print("-------------------------------------");
-          print("(x, y)=" + "(" + i + ", " + j + ")");
-          print("isExistence=" + isExistence[i, j]);
-          print("deleteBlockCount=" + deleteBlockCount[i]);
-          print("-------------------------------------");
+          //print("-------------------------------------");
+          //print("(x, y)=" + "(" + i + ", " + j + ")");
+          //print("isExistence=" + isExistence[i, j]);
+          //print("deleteBlockCount=" + deleteBlockCount[i]);
+          //print("-------------------------------------");
           // 落下させるオブジェクトを求める
           GameObject block = blocks[i, j];
           print("block=" + block);
