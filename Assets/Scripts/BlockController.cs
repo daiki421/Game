@@ -60,7 +60,7 @@ public class BlockController : MonoBehaviour {
     }
   }
 
-  private void OnDragStart()
+  public void OnDragStart()
   {
     //print("START");
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -90,7 +90,7 @@ public class BlockController : MonoBehaviour {
     }
   }
 
-  private void OnDragging()
+  public void OnDragging()
   {
     //print("DRAG");
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -104,16 +104,18 @@ public class BlockController : MonoBehaviour {
           // 座標が保存してある配列にドラッグ中のブロックの座標が存在する場合は最新の配列の中身を削除
           // ブロックの数だけループ回す
           // 初めてドラッグしたブロックはelseに入るが、次のループ処理が走るのでドラッグしているブロックが先端のブロックである場合は
-          for (int i = 0; i < BLOCK_ROW * BLOCK_LINE; i++) {
-            if (removableBlockX[i] == getMatrix_X(hitObj.transform.position.x) && removableBlockY[i] == getMatrix_Y(hitObj.transform.position.y) && lastBlock != hitObj) {
-              // 配列の最新を削除
-              print("---------１つ戻る---------");
-              print("(removableBlockX, removableBlockY)="+"("+removableBlockX[i]+", "+removableBlockY[i]+")");
-              print("removableBlock=" + removableBlockList[removableBlockList.Count - 1]);
-              removableBlockX.RemoveAt(removableBlockX.Count - 1);
-              removableBlockY.RemoveAt(removableBlockY.Count - 1);
-              ChangeColor(removableBlockList[removableBlockList.Count - 1], 1.0f);
-            } else {
+          //for (int i = 0; i < BLOCK_ROW * BLOCK_LINE; i++) {
+            print("MatrixX=" + getMatrix_X(hitObj.transform.position.x));
+            print("MatrixY=" + getMatrix_Y(hitObj.transform.position.y));
+            //if (removableBlockX[i] == getMatrix_X(hitObj.transform.position.x) && removableBlockY[i] == getMatrix_Y(hitObj.transform.position.y) && lastBlock != hitObj) {
+            //  // 配列の最新を削除
+            //  print("---------１つ戻る---------");
+            //  print("(removableBlockX, removableBlockY)="+"("+removableBlockX[i]+", "+removableBlockY[i]+")");
+            //  print("removableBlock=" + removableBlockList[removableBlockList.Count - 1]);
+            //  removableBlockX.RemoveAt(removableBlockX.Count - 1);
+            //  removableBlockY.RemoveAt(removableBlockY.Count - 1);
+            //  ChangeColor(removableBlockList[removableBlockList.Count - 1], 1.0f);
+            //} else {
               //削除対象のオブジェクトを格納
               lastBlock = hitObj;
               //ドラッグ中のオブジェクトの座標を取得
@@ -126,14 +128,14 @@ public class BlockController : MonoBehaviour {
               removableBlockX.Add(matrixX);
               removableBlockY.Add(matrixY);
               PushToList(hitObj);
-            }
-          }
+            //}
+          //}
         }
       }
     }
   }
 
-  private void OnDragEnd()
+  public void OnDragEnd()
   {
     //print("DRAG END");
     int remove_cnt = removableBlockList.Count;
@@ -144,6 +146,7 @@ public class BlockController : MonoBehaviour {
     }
     firstBlock = null;
     lastBlock = null;
+
   }
 
   void PushToList(GameObject obj)
@@ -191,10 +194,10 @@ public class BlockController : MonoBehaviour {
           //print("-------------------------------------");
           // 落下させるオブジェクトを求める
           GameObject block = blocks[i, j];
-          print("block=" + block);
+          //print("block=" + block);
           // 落下予定地のY座標
           int matrixY = j + deleteBlockCount[i];
-          print("blockMarker=" + "(" + i + ", " + matrixY + ")");
+          //print("blockMarker=" + "(" + i + ", " + matrixY + ")");
           // 落下予定地のマーカーを取得
           GameObject blockMarker = blockMarkers[i, matrixY];
           // 落下させる
