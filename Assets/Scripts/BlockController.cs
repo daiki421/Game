@@ -62,7 +62,7 @@ public class BlockController : MonoBehaviour {
 
   public void OnDragStart()
   {
-    //print("START");
+    print("START");
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
     if (hit.collider != null)
@@ -92,7 +92,7 @@ public class BlockController : MonoBehaviour {
 
   public void OnDragging()
   {
-    //print("DRAG");
+    print("DRAG");
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
     if (hit.collider != null) {
       GameObject hitObj = hit.collider.gameObject;
