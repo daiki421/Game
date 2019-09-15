@@ -61,6 +61,11 @@ public class BlockController : MonoBehaviour {
     }
   }
 
+  public void MovePlayer()
+  {
+
+  }
+
   public void OnDragStart()
   {
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -70,6 +75,8 @@ public class BlockController : MonoBehaviour {
       GameObject hitObj = hit.collider.gameObject;
       //オブジェクトの名前を前方一致で判定
       string blockName = hitObj.name;
+      // キャラの座標取得
+      // タップしたブロックがキャラの左下、真下、右下の場合処理を行う
       if (blockName.StartsWith("Stone"))
       {
         print("STONE");
@@ -87,16 +94,12 @@ public class BlockController : MonoBehaviour {
         removableBlockY.Add(matrixY);
         //削除対象のオブジェクトを格納
         PushToList(hitObj);
-      } else if (blockName.StartsWith("Character"))
-      {
-        print("CHARACTER");
       }
     }
   }
 
   public void OnDragging()
   {
-    print("DRAG");
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
     if (hit.collider != null) {
       GameObject hitObj = hit.collider.gameObject;
@@ -108,32 +111,20 @@ public class BlockController : MonoBehaviour {
           // 座標が保存してある配列にドラッグ中のブロックの座標が存在する場合は最新の配列の中身を削除
           // ブロックの数だけループ回す
           // 初めてドラッグしたブロックはelseに入るが、次のループ処理が走るのでドラッグしているブロックが先端のブロックである場合は
-          //for (int i = 0; i < BLOCK_ROW * BLOCK_LINE; i++) {
-            print("MatrixX=" + getMatrix_X(hitObj.transform.position.x));
-            print("MatrixY=" + getMatrix_Y(hitObj.transform.position.y));
-            //if (removableBlockX[i] == getMatrix_X(hitObj.transform.position.x) && removableBlockY[i] == getMatrix_Y(hitObj.transform.position.y) && lastBlock != hitObj) {
-            //  // 配列の最新を削除
-            //  print("---------１つ戻る---------");
-            //  print("(removableBlockX, removableBlockY)="+"("+removableBlockX[i]+", "+removableBlockY[i]+")");
-            //  print("removableBlock=" + removableBlockList[removableBlockList.Count - 1]);
-            //  removableBlockX.RemoveAt(removableBlockX.Count - 1);
-            //  removableBlockY.RemoveAt(removableBlockY.Count - 1);
-            //  ChangeColor(removableBlockList[removableBlockList.Count - 1], 1.0f);
-            //} else {
-              //削除対象のオブジェクトを格納
-              lastBlock = hitObj;
-              //ドラッグ中のオブジェクトの座標を取得
-              int matrixX = getMatrix_X(hitObj.transform.position.x);
-              int matrixY = getMatrix_Y(hitObj.transform.position.y);
-              print("--------リストに追加-------");
-              print("(x,y)="+"("+matrixX+", "+matrixY+")");
-              print("lastBlock=" + lastBlock);
-              isExistence[matrixX, matrixY] = false;
-              removableBlockX.Add(matrixX);
-              removableBlockY.Add(matrixY);
-              PushToList(hitObj);
-            //}
-          //}
+          print("MatrixX=" + getMatrix_X(hitObj.transform.position.x));
+          print("MatrixY=" + getMatrix_Y(hitObj.transform.position.y));
+          // 削除対象のオブジェクトを格納
+          lastBlock = hitObj;
+          // ドラッグ中のオブジェクトの座標を取得
+          int matrixX = getMatrix_X(hitObj.transform.position.x);
+          int matrixY = getMatrix_Y(hitObj.transform.position.y);
+          print("--------リストに追加-------");
+          print("(x,y)="+"("+matrixX+", "+matrixY+")");
+          print("lastBlock=" + lastBlock);
+          isExistence[matrixX, matrixY] = false;
+          removableBlockX.Add(matrixX);
+          removableBlockY.Add(matrixY);
+          PushToList(hitObj);
         }
       }
     }
