@@ -28,7 +28,8 @@ public class BlockController : MonoBehaviour {
     deleteBlockCount = new int[BLOCK_ROW];
     createBlock(BLOCK_ROW, BLOCK_LINE);
     createSideWall(23);
-    createFloorStone(BLOCK_LINE);
+    //createCharacter();
+    createFloorStone();
     createBlockMarker(BLOCK_ROW, BLOCK_LINE);
     isExistence = new bool[BLOCK_ROW, BLOCK_LINE];
     for(int i=0;i< BLOCK_ROW; i++)
@@ -62,7 +63,6 @@ public class BlockController : MonoBehaviour {
 
   public void OnDragStart()
   {
-    print("START");
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
     if (hit.collider != null)
@@ -72,6 +72,7 @@ public class BlockController : MonoBehaviour {
       string blockName = hitObj.name;
       if (blockName.StartsWith("Stone"))
       {
+        print("STONE");
         firstBlock = hitObj;
         lastBlock = hitObj;
         currentName = hitObj.name;
@@ -86,6 +87,9 @@ public class BlockController : MonoBehaviour {
         removableBlockY.Add(matrixY);
         //削除対象のオブジェクトを格納
         PushToList(hitObj);
+      } else if (blockName.StartsWith("Character"))
+      {
+        print("CHARACTER");
       }
     }
   }
@@ -220,12 +224,6 @@ public class BlockController : MonoBehaviour {
     //}
   }
 
-  // 連結用の線を引く
-  void createLine()
-  {
-
-  }
-
   int getMatrix_X(float posX)
   {
     float matrix = (posX + 2.0f) / 0.5f;
@@ -245,6 +243,17 @@ public class BlockController : MonoBehaviour {
     //Colorプロパティのうち、透明度のみ変更する
     blockTexture.color = new Color(blockTexture.color.r, blockTexture.color.g, blockTexture.color.b, transparency);
   }
+
+  //void createCharacter()
+  //{
+  //  // プレファブ取得
+  //  GameObject charaPrefab = GameObject.Find("Character");
+  //  // オブジェクトのポジション設定
+  //  float posX = 0;
+  //  float posY = 2.5f; // (3.0f - posY) / 0.5f
+  //  Vector2 charaPosition = new Vector2(posX, posY);
+  //  GameObject character = Instantiate(charaPrefab, charaPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
+  //}
 
   void createBlock(int row, int line) {
     for (int i = 0; i < row; i++) {
@@ -283,7 +292,7 @@ public class BlockController : MonoBehaviour {
     }
   }
 
-  void createFloorStone(int tall)
+  void createFloorStone()
   {
     GameObject blockPrefab = GameObject.Find("StoneWalls");
     // オブジェクトのポジション設定
@@ -299,7 +308,7 @@ public class BlockController : MonoBehaviour {
   void createSideWall(int tall) {
     // プレファブ取得
     for (int i = 0; i < tall; i++) {
-      GameObject blockPrefab = GameObject.Find("StoneSideWall");
+      GameObject blockPrefab = GameObject.Find("SideWall");
       // オブジェクトのポジション設定
       float posX = -2.5f;
       float posY = -5.0f + 0.5f * i;
@@ -307,7 +316,7 @@ public class BlockController : MonoBehaviour {
       GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
     } 
     for (int i = 0; i < tall; i++) {
-      GameObject blockPrefab = GameObject.Find("StoneSideWall");
+      GameObject blockPrefab = GameObject.Find("SideWall");
       // オブジェクトのポジション設定
       float posX = 2.5f;
       float posY = -5.0f + 0.5f * i;
@@ -315,7 +324,7 @@ public class BlockController : MonoBehaviour {
       GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
     }
     for (int i = 0; i < tall; i++) {
-      GameObject blockPrefab = GameObject.Find("StoneSideWall");
+      GameObject blockPrefab = GameObject.Find("SideWall");
       // オブジェクトのポジション設定
       float posX = 3.0f;
       float posY = -5.0f + 0.5f * i;
@@ -323,7 +332,7 @@ public class BlockController : MonoBehaviour {
       GameObject block = Instantiate(blockPrefab, blockPosition, Quaternion.AngleAxis(Random.Range(-0, 0), Vector3.up)) as GameObject;
     } 
     for (int i = 0; i < tall; i++) {
-      GameObject blockPrefab = GameObject.Find("StoneSideWall");
+      GameObject blockPrefab = GameObject.Find("SideWall");
       // オブジェクトのポジション設定
       float posX = -3.0f;
       float posY = -5.0f + 0.5f * i;
