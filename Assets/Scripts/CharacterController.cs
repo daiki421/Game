@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CaracterController : MonoBehaviour {
+public class CharacterController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-    createCharacter();
+
 	}
 	
 	// Update is called once per frame
@@ -19,7 +19,7 @@ public class CaracterController : MonoBehaviour {
     print("PointerDown");
   }
 
-  void createCharacter()
+  public void createCharacter()
   {
     // プレファブ取得
     GameObject charaPrefab = GameObject.Find("Character");

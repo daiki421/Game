@@ -21,6 +21,8 @@ public class BlockController : MonoBehaviour {
   // ブロック落下用のマーカーを管理する配列
   GameObject[,] blockMarkers;
   int[] deleteBlockCount;
+  GameObject character;
+  CharacterController characterScript;
 
   void Start () {
     blocks = new GameObject[BLOCK_ROW, BLOCK_LINE];
@@ -32,7 +34,11 @@ public class BlockController : MonoBehaviour {
     createFloorStone();
     createBlockMarker(BLOCK_ROW, BLOCK_LINE);
     isExistence = new bool[BLOCK_ROW, BLOCK_LINE];
-    for(int i=0;i< BLOCK_ROW; i++)
+    // CharacterControllerのインタンス生成
+    character = GameObject.Find("Character");
+    characterScript = character.GetComponent<CharacterController>();
+    characterScript.createCharacter();
+    for (int i=0;i< BLOCK_ROW; i++)
     {
       for (int j = 2; j < BLOCK_LINE; j++)
       {
