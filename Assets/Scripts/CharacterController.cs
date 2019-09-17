@@ -14,9 +14,27 @@ public class CharacterController : MonoBehaviour {
 		
 	}
 
+  // キャラをタップした時の処理
+  // BlockMarkerにDragが入ったらキャラとマーカーを連結
+  // 移動ロジック
   public void PointerDown()
   {
     print("PointerDown");
+  }
+
+  // DragしているオブジェクトがMarkerだった場合、処理に入る
+  public void Drag()
+  {
+    // 今ドラッグしているオブジェクトを取得
+    // そのオブジェクトとキャラを線でつなぐ
+    // オブジェクトの座標を保存
+    print("Drag");
+  }
+
+  public void PointerUp()
+  {
+    // 保存したマーカーの座標を順番に移動する
+    print("PointerUp");
   }
 
   public void createCharacter()
