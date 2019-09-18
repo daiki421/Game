@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+  List<int> chainBlockX = new List<int>();
+  List<int> chainBlockY = new List<int>();
+
+  // Use this for initialization
+  void Start () {
 
 	}
 	
@@ -25,9 +28,23 @@ public class CharacterController : MonoBehaviour {
   // DragしているオブジェクトがMarkerだった場合、処理に入る
   public void Drag()
   {
-    // 今ドラッグしているオブジェクトを取得
-    // そのオブジェクトとキャラを線でつなぐ
+    // ドラッグ中のオブジェクトを取得
+    // 調べる
+
     // オブジェクトの座標を保存
+    //chainBlockX.Add(this.transform.position.x);
+    //chainBlockY.Add(this.transform.position.y);
+    // そのオブジェクトとキャラを線でつなぐ
+    LineRenderer renderer = gameObject.GetComponent<LineRenderer>();
+    // 線の幅
+    renderer.SetWidth(0.1f, 0.1f);
+    // 頂点の数
+    renderer.SetVertexCount(2);
+    // 頂点を設定
+    // １つ前のオブジェクトと現在ドラッグしているオブジェクトを設定
+    //renderer.SetPosition(0, new Vector3(chainBlockX[chainBlockX.Count - 1], chainBlockY[chainBlockY.Count - 1], 0f));
+    //renderer.SetPosition(1, new Vector3(this.transform.position.x, this.transform.position.y, 0f));
+
     print("Drag");
   }
 
