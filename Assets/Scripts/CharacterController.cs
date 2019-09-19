@@ -30,6 +30,8 @@ public class CharacterController : MonoBehaviour {
   {
     // ドラッグ中のオブジェクトを取得
     // 調べる
+    // raycastを使う
+    // rayが当たったオブジェクトの座標を取得
 
     // オブジェクトの座標を保存
     //chainBlockX.Add(this.transform.position.x);
