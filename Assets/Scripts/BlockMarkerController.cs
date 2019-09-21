@@ -35,6 +35,32 @@ public class BlockMarkerController : MonoBehaviour {
   {
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
     // ヒットしたオブジェクトがマーカーだった場合、キャラとの距離を計算しブロック１つ分の距離だった場合、オブジェウトの1ます下にブロックが存在していればtrue、してなければfalse
+    if (hit.collider != null)
+    {
+      GameObject hitObj = hit.collider.gameObject;
+      //オブジェクトの名前を前方一致で判定
+      string blockName = hitObj.name;
+      // キャラの座標取得
+      // タップしたブロックがキャラの左下、真下、右下の場合処理を行う
+      if (blockName.StartsWith("Stone"))
+      {
+        print("STONE");
+        firstBlock = hitObj;
+        lastBlock = hitObj;
+        currentName = hitObj.name;
+        //削除対象オブジェクトリストの初期化
+        removableBlockList = new List<GameObject>();
+        //ドラッグ中のオブジェクトの座標を取得
+        int matrixX = getMatrix_X(hitObj.transform.position.x);
+        int matrixY = getMatrix_Y(hitObj.transform.position.y);
+        //print("(x,y)=" + "(" + matrixY + ", " + matrixX + ")");
+        isExistence[matrixX, matrixY] = false;
+        removableBlockX.Add(matrixX);
+        removableBlockY.Add(matrixY);
+        //削除対象のオブジェクトを格納
+        PushToList(hitObj);
+      }
+    }
   }
 
   public void OnDragging()
