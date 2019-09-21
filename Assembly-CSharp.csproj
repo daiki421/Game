@@ -68,6 +68,7 @@
      <Compile Include="Assets\Free_Pack\Demo_GameResource\Script\DestroyEffect.cs" />
      <Compile Include="Assets\Free_Pack\Demo_GameResource\Script\WoodDoll_Mgr.cs" />
      <Compile Include="Assets\Scripts\BlockController.cs" />
+     <Compile Include="Assets\Scripts\BlockMarkerController.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CharacterController.cs" />
      <Compile Include="Assets\Scripts\Test.cs" />
