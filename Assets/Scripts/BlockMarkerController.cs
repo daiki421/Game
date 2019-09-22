@@ -6,17 +6,21 @@ public class BlockMarkerController : MonoBehaviour {
 
   private GameObject firstBlockMarker; //最初にドラッグしたボール
   private GameObject lastBlockMarker; //最後にドラッグしたボール
+  GameObject block;
+  BlockController blockScript;
+  private string currentName; //名前判定用のstring変数
 
   // Use this for initialization
   void Start () {
-		
-	}
+    block = GameObject.Find("Stone1");
+    blockScript = block.GetComponent<BlockController>();
+  }
 
   // Update is called once per frame
   void Update()
   {
     //画面をクリックし、firstBallがnullの時実行
-    if (Input.GetMouseButtonDown(0) && firstBlock == null)
+    if (Input.GetMouseButtonDown(0) && firstBlockMarker == null)
     {
       OnDragStart();
     }
@@ -25,7 +29,7 @@ public class BlockMarkerController : MonoBehaviour {
       //クリックを終えた時
       OnDragEnd();
     }
-    else if (firstBlock != null)
+    else if (firstBlockMarker != null)
     {
       OnDragging();
     }
@@ -45,20 +49,10 @@ public class BlockMarkerController : MonoBehaviour {
       if (blockName.StartsWith("Stone"))
       {
         print("STONE");
-        firstBlock = hitObj;
-        lastBlock = hitObj;
+        firstBlockMarker = hitObj;
+        lastBlockMarker = hitObj;
         currentName = hitObj.name;
-        //削除対象オブジェクトリストの初期化
-        removableBlockList = new List<GameObject>();
-        //ドラッグ中のオブジェクトの座標を取得
-        int matrixX = getMatrix_X(hitObj.transform.position.x);
-        int matrixY = getMatrix_Y(hitObj.transform.position.y);
-        //print("(x,y)=" + "(" + matrixY + ", " + matrixX + ")");
-        isExistence[matrixX, matrixY] = false;
-        removableBlockX.Add(matrixX);
-        removableBlockY.Add(matrixY);
-        //削除対象のオブジェクトを格納
-        PushToList(hitObj);
+
       }
     }
   }
