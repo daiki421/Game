@@ -52,7 +52,6 @@ public class BlockMarkerController : MonoBehaviour {
         firstBlockMarker = hitObj;
         lastBlockMarker = hitObj;
         currentName = hitObj.name;
-
       }
     }
   }
