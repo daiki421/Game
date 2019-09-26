@@ -221,13 +221,13 @@ public class BlockController : MonoBehaviour {
     //}
   }
 
-  int getMatrix_X(float posX)
+  public int getMatrix_X(float posX)
   {
     float matrix = (posX + 2.0f) / 0.5f;
     return (int)matrix;
   }
 
-  int getMatrix_Y(float posY)
+  public int getMatrix_Y(float posY)
   {
     float matriy = (3.0f - posY) / 0.5f;
     return (int)matriy;
