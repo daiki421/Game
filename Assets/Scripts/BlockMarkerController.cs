@@ -73,6 +73,37 @@ public class BlockMarkerController : MonoBehaviour {
   {
     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
     // ドラッグしているオブジェクトがマーカーだった場合、オブジェウトの1ます下にブロックが存在していればtrue、してなければfalse
+    if (hit.collider != null)
+    {
+      GameObject hitObj = hit.collider.gameObject;
+      //オブジェクトの名前を前方一致で判定
+      string markerName = hitObj.name;
+      // キャラの座標取得
+      // タップしたブロックがキャラの左下、真下、右下の場合処理を行う
+      if (markerName.StartsWith("BlockMarker"))
+      {
+        // ブロックマーカーの座標を取得
+        // その1ます下にブロックが存在するかを判定
+        // 存在していた場合は足場として連結リストに加える
+
+        GameObject character = GameObject.Find("Character");
+        float distance = Vector2.Distance(hitObj.transform.position, character.transform.position);
+        if (distance < 1.0f)
+        {
+          print("Marker");
+          firstBlockMarker = hitObj;
+          lastBlockMarker = hitObj;
+          currentName = hitObj.name;
+          //ドラッグ中のオブジェクトの座標を取得
+          int matrixX = blockScript.getMatrix_X(hitObj.transform.position.x);
+          int matrixY = blockScript.getMatrix_Y(hitObj.transform.position.y);
+          //print("(x,y)=" + "(" + matrixY + ", " + matrixX + ")");
+          chainMarkerX.Add(matrixX);
+          chainMarkerY.Add(matrixY);
+        }
+      }
+    }
+
     // 線でつなげる
 
   }
