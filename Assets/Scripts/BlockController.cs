@@ -15,7 +15,7 @@ public class BlockController : MonoBehaviour {
   List<int> removableBlockX = new List<int>();
   List<int> removableBlockY = new List<int>();
   // 削除するブロックをブロックの座標で管理する配列
-  bool[,] isExistence;
+  public bool[,] isExistence;
   // 現在のオブジェクトの有無を管理する配列
   GameObject[,] blocks;
   // ブロック落下用のマーカーを管理する配列
@@ -231,6 +231,11 @@ public class BlockController : MonoBehaviour {
   {
     float matriy = (3.0f - posY) / 0.5f;
     return (int)matriy;
+  }
+
+  public bool isExistBlock(int x, int y)
+  {
+    return isExistence[x, y];
   }
 
   void ChangeColor(GameObject obj, float transparency)
