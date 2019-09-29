@@ -11,9 +11,11 @@ public class BlockMarkerController : MonoBehaviour {
   private string currentName; //名前判定用のstring変数
   List<int> chainMarkerX = new List<int>();
   List<int> chainMarkerY = new List<int>();
+  GameObject character;
 
   // Use this for initialization
   void Start () {
+    character = GameObject.Find("Character");
     block = GameObject.Find("Stone1");
     blockScript = block.GetComponent<BlockController>();
   }
@@ -50,7 +52,7 @@ public class BlockMarkerController : MonoBehaviour {
       // タップしたブロックがキャラの左下、真下、右下の場合処理を行う
       if (markerName.StartsWith("BlockMarker"))
       {
-        GameObject character = GameObject.Find("Character");
+
         float distance = Vector2.Distance(hitObj.transform.position, character.transform.position);
         if (distance < 1.0f)
         {
@@ -89,9 +91,11 @@ public class BlockMarkerController : MonoBehaviour {
         if (distance < 1.0f)
         {
           // その1ます下にブロックが存在するかを判定
-          if (blockScript.isExistBlock(matrixX, matrixY))
+          if (blockScript.isExistBlock(matrixX, matrixY + 1))
           {
             // 存在していた場合は足場として連結リストに加える
+            chainMarkerX.Add(matrixX);
+            chainMarkerY.Add(matrixY);
           }
         }
       }
