@@ -96,13 +96,19 @@ public class BlockMarkerController : MonoBehaviour {
             // 存在していた場合は足場として連結リストに加える
             chainMarkerX.Add(matrixX);
             chainMarkerY.Add(matrixY);
+            // 線でつなげる
+            LineRenderer renderer = gameObject.GetComponent<LineRenderer>();
+            // 線の幅
+            renderer.SetWidth(0.1f, 0.1f);
+            // 頂点の数
+            renderer.SetVertexCount(2);
+            // 頂点を設定
+            renderer.SetPosition(0, new Vector3(1f,1f,1f));// １つ前のマーカー
+            renderer.SetPosition(1, new Vector3(1f, 1f, 0f));// 現在ドラッグ中のマーカー
           }
         }
       }
     }
-
-    // 線でつなげる
-
   }
 
   public void OnDragEnd()
