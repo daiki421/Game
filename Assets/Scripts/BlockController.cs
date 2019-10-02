@@ -233,6 +233,18 @@ public class BlockController : MonoBehaviour {
     return (int)matriy;
   }
 
+  public float getPositionX(int matrixX)
+  {
+    float positionx = (float)matrixX * 0.5f - 2.0f;
+    return positionx;
+  }
+
+  public float getPositionY(int matrixY)
+  {
+    float positiony = (float)matrixY * 0.5f - 2.0f;
+    return positiony;
+  }
+
   public bool isExistBlock(int x, int y)
   {
     return isExistence[x, y];

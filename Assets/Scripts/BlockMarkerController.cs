@@ -103,8 +103,8 @@ public class BlockMarkerController : MonoBehaviour {
             // 頂点の数
             renderer.SetVertexCount(2);
             // 頂点を設定
-            renderer.SetPosition(0, new Vector3(1f,1f,1f));// １つ前のマーカー
-            renderer.SetPosition(1, new Vector3(1f, 1f, 0f));// 現在ドラッグ中のマーカー
+            renderer.SetPosition(0, new Vector3(blockScript.getPositionX(chainMarkerX[chainMarkerX.Count]), blockScript.getPositionY(chainMarkerY[chainMarkerY.Count]), 0f));// １つ前のマーカー
+            renderer.SetPosition(1, new Vector3(hitObj.transform.position.x, hitObj.transform.position.y, 0f));// 現在ドラッグ中のマーカー
           }
         }
       }
