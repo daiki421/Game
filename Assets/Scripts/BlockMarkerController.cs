@@ -52,7 +52,7 @@ public class BlockMarkerController : MonoBehaviour {
       // タップしたブロックがキャラの左下、真下、右下の場合処理を行う
       if (markerName.StartsWith("BlockMarker"))
       {
-
+        // 上を選択した場合はジャンプ
         float distance = Vector2.Distance(hitObj.transform.position, character.transform.position);
         if (distance < 1.0f)
         {
@@ -115,5 +115,6 @@ public class BlockMarkerController : MonoBehaviour {
   {
     // 移動開始
     // コルーチンで遅延を発生させながら移動させる
+    // 
   }
 }
