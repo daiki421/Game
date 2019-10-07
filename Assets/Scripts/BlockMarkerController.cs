@@ -115,13 +115,18 @@ public class BlockMarkerController : MonoBehaviour {
   {
     // 移動開始
     // コルーチンで遅延を発生させながら移動させる
-    // 
+    // 全ての線を消す
+
   }
-	IEnumerator ChangeColor()
+	IEnumerator MoveCharacter()
 	{
 		//リストを引数に取り、ループ
-
-		//0.5秒停止
-		yield return new WaitForSeconds(0.5f);
+        for(int i = 0; i < chainMarkerX.Count; i++)
+		{
+			iTween.MoveTo(block, iTween.Hash("x", chainMarkerX[i], "y", chainMarkerY[i]));
+			//0.5秒停止
+			yield return new WaitForSeconds(0.5f);
+		}
+		
 	}
 }
