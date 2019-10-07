@@ -117,4 +117,11 @@ public class BlockMarkerController : MonoBehaviour {
     // コルーチンで遅延を発生させながら移動させる
     // 
   }
+	IEnumerator ChangeColor()
+	{
+		//リストを引数に取り、ループ
+
+		//0.5秒停止
+		yield return new WaitForSeconds(0.5f);
+	}
 }
