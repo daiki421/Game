@@ -111,13 +111,14 @@ public class BlockMarkerController : MonoBehaviour {
     }
   }
 
-  public void OnDragEnd()
-  {
-    // 移動開始
-    // コルーチンで遅延を発生させながら移動させる
-    // 全ての線を消す
+    public void OnDragEnd()
+    {
+		// 移動開始
+		// コルーチンで遅延を発生させながら移動させる
+		// 全ての線を消す
+		StartCoroutine("MoveCharacter");
 
-  }
+    }
 	IEnumerator MoveCharacter()
 	{
 		//リストを引数に取り、ループ
