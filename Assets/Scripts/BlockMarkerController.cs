@@ -45,6 +45,7 @@ public class BlockMarkerController : MonoBehaviour {
     // ヒットしたオブジェクトがマーカーだった場合、キャラとの距離を計算しブロック１つ分の距離だった場合、オブジェウトの1ます下にブロックが存在していればtrue、してなければfalse
     if (hit.collider != null)
     {
+	  print("Start");
       GameObject hitObj = hit.collider.gameObject;
       //オブジェクトの名前を前方一致で判定
       string markerName = hitObj.name;
@@ -77,6 +78,7 @@ public class BlockMarkerController : MonoBehaviour {
     // ドラッグしているオブジェクトがマーカーだった場合、オブジェウトの1ます下にブロックが存在していればtrue、してなければfalse
     if (hit.collider != null)
     {
+			print("Drag");
       GameObject hitObj = hit.collider.gameObject;
       //オブジェクトの名前を前方一致で判定
       string markerName = hitObj.name;
@@ -113,6 +115,7 @@ public class BlockMarkerController : MonoBehaviour {
 
     public void OnDragEnd()
     {
+		print("END");
 		// 移動開始
 		// コルーチンで遅延を発生させながら移動させる
 		// 全ての線を消す
